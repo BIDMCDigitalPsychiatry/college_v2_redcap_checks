@@ -1,7 +1,6 @@
 import LAMP
 import requests
-import os
-print(os.getenv("LAMP_ACCESS_KEY"))
+print("made it here")
 LAMP.connect() # Please set env variables!
 import datetime
 
