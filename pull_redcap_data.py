@@ -4,6 +4,7 @@ import os
 LAMP.connect() # Please set env variables!
 import datetime
 
+
 # ---------------------- Functions ---------------------- #
 def check_participant_redcap(email):
     """ Check that the participant:
