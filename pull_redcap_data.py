@@ -180,6 +180,8 @@ for p in parts:
                             attachment_key='org.digitalpsych.college_study_2.redcap_id',
                             body=check_participant_redcap(email))
     except LAMP.ApiException:
+        print("failed to get attachments")
+        print(p)
         # This participant does not have a name configured -- ignore
         continue
 print("Attached redcap ids to participants.")
