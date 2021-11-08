@@ -89,12 +89,11 @@ def _passed_ifc(df0):
         if int(df0[k]) != corr_ans[kk]:
             failed = True
     if failed:
-        failed_v2 = False
         for kk, k in enumerate(ic2_keys):
+            if df0[k] == "":
+                return 0
             if int(df0[k]) != corr_ans2[kk]:
-                failed_v2 = True
-        if failed_v2:
-            return 0
+                return 0
     return 1
 
 def get_survey_links(redcap_id):
