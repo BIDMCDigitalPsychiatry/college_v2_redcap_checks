@@ -16,7 +16,7 @@ jobs:
         LAMP_ACCESS_KEY: ${{ secrets.LAMP_ACCESS_KEY }}
         LAMP_SECRET_KEY: ${{ secrets.LAMP_SECRET_KEY }}
       run: |
-        export SLEEP_MIN=$(($RANDOM / 1000)) # between 0-6 min ONLY
+        export SLEEP_MIN=$(($RANDOM / 10000)) # between 0-3 min ONLY
         echo "Sleeping for ${SLEEP_MIN}m..."
         sleep "${SLEEP_MIN}m"
         # Stagger the cron job invocation before running the code.
