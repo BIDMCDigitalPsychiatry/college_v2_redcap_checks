@@ -83,21 +83,17 @@ def _passed_ifc(df0):
     ic_keys = ["ic1", "ic2", "ic3", "ic4", "ic5", "ic6", "ic7",]
     corr_ans = [1, 0, 2, 0, 0, 1, 2]
     ic2_keys = ["ic1_v2", "ic2_v2", "ic3_v2", "ic4_v2", "ic5_v2", "ic6_v2", "ic7_v2",]
-    corr_ans2 = [1, 0, 2, 0, 0, 0, 2]
+    corr_ans2 = [1, 0, 2, 0, 0, 1, 2]
     failed = False
     for kk, k in enumerate(ic_keys):
         if int(df0[k]) != corr_ans[kk]:
             failed = True
     if failed:
         failed_v2 = False
-        df1 = df0[ic2_keys].dropna()
-        if len(df1) > 0:
-            for kk, k in enumerate(ic2_keys):
-                if int(df1[k]) != corr_ans2[kk]:
-                    failed_v2 = True
-            if failed_v2:
-                return 0
-        else:
+        for kk, k in enumerate(ic2_keys):
+            if int(df0[k]) != corr_ans2[kk]:
+                failed_v2 = True
+        if failed_v2:
             return 0
     return 1
 
