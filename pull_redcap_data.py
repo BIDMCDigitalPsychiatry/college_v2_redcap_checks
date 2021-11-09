@@ -192,7 +192,7 @@ for p in parts:
     try:
         email = LAMP.Type.get_attachment(p, 'lamp.name')["data"]
         LAMP.Type.set_attachment(p, 'me',
-                            attachment_key='org.digitalpsych.college_study_2.redcap_id',
+                            attachment_key='org.digitalpsych.college_study_2.redcap_count',
                             body=count_redcap_records(email))
         LAMP.Type.set_attachment(p, 'me',
                             attachment_key='org.digitalpsych.college_study_2.redcap_id',
