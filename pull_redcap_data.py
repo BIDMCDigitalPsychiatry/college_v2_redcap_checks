@@ -144,6 +144,26 @@ def get_survey_links(redcap_id):
             if int(df[k + "_complete"]) == 2 and df["payment_auth_" + num] != "":
                 ret[k]["done"] = 1
     return ret
+
+def count_redcap_records(email):
+    """ Check the number of redcap record for a participant's email.
+
+        Args:
+            email - the participant's student email
+        Returns:
+            the count of (recent) redcap entries with this email
+    """
+    COLLEGE_V2 = "4aq1kry81ktrb5v1smvs"
+    # start timestamp is 11/1/2021
+    START_TIMESTAMP = 1635739200000
+    # Get the redcap data
+    college_v2_redcap = LAMP.Type.get_attachment(COLLEGE_V2, 'org.digitalpsych.redcap.data')['data']
+    df = [x for x in college_v2_redcap if x["student_email"].lower() == email.lower()]
+    converted_timestamps = []
+    for i in range(len(df)):
+        df[i]["converted_timestamp"] = int(datetime.datetime.strptime(df[i]["enrollment_survey_timestamp"], "%Y-%m-%d %H:%M:%S").timestamp() * 1000)
+    df = [x for x in df if x["converted_timestamp"] > START_TIMESTAMP]
+    return len(df)
 # ------------------------------------------------------------ #
 
 # 1) Pull redcap data and attach to college
@@ -162,7 +182,7 @@ LAMP.Type.set_attachment(RESEARCHER, 'me',
                             body=records)
 print("Attached redcap data to researcher.")
 
-# 2) Attach redcap ids for everyone in college
+# 2) Attach redcap ids / counts for everyone in college
 
 parts = []
 for study in LAMP.Study.all_by_researcher(RESEARCHER)['data']:
@@ -171,6 +191,9 @@ for study in LAMP.Study.all_by_researcher(RESEARCHER)['data']:
 for p in parts:
     try:
         email = LAMP.Type.get_attachment(p, 'lamp.name')["data"]
+        LAMP.Type.set_attachment(p, 'me',
+                            attachment_key='org.digitalpsych.college_study_2.redcap_id',
+                            body=count_redcap_records(email))
         LAMP.Type.set_attachment(p, 'me',
                             attachment_key='org.digitalpsych.college_study_2.redcap_id',
                             body=check_participant_redcap(email))
