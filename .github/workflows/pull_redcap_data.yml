@@ -1,7 +1,7 @@
 name: Get College V2 Redcap Data
 on:
   schedule:
-    - cron: "*/10 * * * *"
+    - cron: "*/30 * * * *"
   push:
     branches: [master]
 jobs:
