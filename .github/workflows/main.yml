@@ -1,0 +1,24 @@
+name: Get College V2 Redcap Data
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  push:
+    branches: [master]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    - env:
+        LAMP_ACCESS_KEY: ${{ secrets.LAMP_ACCESS_KEY }}
+        LAMP_SECRET_KEY: ${{ secrets.LAMP_SECRET_KEY }}
+      run: |
+        export SLEEP_MIN=$(($RANDOM / 10000)) # between 0-3 min ONLY
+        echo "Sleeping for ${SLEEP_MIN}m..."
+        sleep "${SLEEP_MIN}m"
+        # Stagger the cron job invocation before running the code.
+        pip install requests lamp-core
+        python pull_redcap_data.py
