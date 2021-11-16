@@ -163,7 +163,7 @@ def count_redcap_records(email):
     converted_timestamps = []
     for i in range(len(df)):
         if df[i]["enrollment_survey_timestamp"] == '[not completed]':
-            df[i]["converted_timestamp"]
+            df[i]["converted_timestamp"] = 0
         else:
             df[i]["converted_timestamp"] = int(datetime.datetime.strptime(df[i]["enrollment_survey_timestamp"], "%Y-%m-%d %H:%M:%S").timestamp() * 1000)
     df = [x for x in df if x["converted_timestamp"] > START_TIMESTAMP]
