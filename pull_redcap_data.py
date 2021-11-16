@@ -162,7 +162,10 @@ def count_redcap_records(email):
     df = [x for x in college_v2_redcap if x["student_email"].lower() == email.lower()]
     converted_timestamps = []
     for i in range(len(df)):
-        df[i]["converted_timestamp"] = int(datetime.datetime.strptime(df[i]["enrollment_survey_timestamp"], "%Y-%m-%d %H:%M:%S").timestamp() * 1000)
+        if df[i]["enrollment_survey_timestamp"] == '[not completed]':
+            df[i]["converted_timestamp"]
+        else:
+            df[i]["converted_timestamp"] = int(datetime.datetime.strptime(df[i]["enrollment_survey_timestamp"], "%Y-%m-%d %H:%M:%S").timestamp() * 1000)
     df = [x for x in df if x["converted_timestamp"] > START_TIMESTAMP]
     return len(df)
 # ------------------------------------------------------------ #
